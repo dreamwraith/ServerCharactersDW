@@ -944,6 +944,20 @@ public static class ClientSide
 		}
 	}
 
+	[HarmonyPatch(typeof(Player), nameof(Player.TeleportTo))]
+	private class SaveLocationBeforeTeleport
+	{
+		[UsedImplicitly]
+		private static void Prefix(Player __instance)
+		{
+			if (__instance == Player.m_localPlayer && !__instance.IsDead() && !__instance.IsTeleporting() && Game.instance?.m_playerProfile != null)
+			{
+				// Save exact solid ground location immediately prior to teleportation starting
+				Game.instance.m_playerProfile.SetLogoutPoint(__instance.transform.position);
+			}
+		}
+	}
+
 	[HarmonyPatch(typeof(Game), nameof(Game.SavePlayerProfile))]
 	private class ForceSavingPosition
 	{
@@ -957,10 +971,19 @@ public static class ClientSide
 				ZNet.instance.m_haveStoped = true;
 			}
 
-			if (Player.m_localPlayer != null && !Player.m_localPlayer.IsDead() && !Player.m_localPlayer.IsTeleporting() && __instance.m_playerProfile != null)
+			if (Player.m_localPlayer != null && __instance.m_playerProfile != null)
 			{
-				__instance.m_playerProfile.SetLogoutPoint(Player.m_localPlayer.transform.position);
-				setLogoutPoint = true;
+				if (Player.m_localPlayer.IsDead())
+				{
+					// If player is dead, clear the logout point so crashes on death screen respawn at bed/start stones
+					__instance.m_playerProfile.ClearLoguoutPoint();
+				}
+				else if (!Player.m_localPlayer.IsTeleporting())
+				{
+					// Skip position update while teleporting to prevent capturing transient or ungrounded portal loading coordinates; otherwise save position
+					__instance.m_playerProfile.SetLogoutPoint(Player.m_localPlayer.transform.position);
+					setLogoutPoint = true;
+				}
 			}
 		}
 
