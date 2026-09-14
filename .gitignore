@@ -4,3 +4,5 @@ packages
 ServerCharacters.sln.DotSettings.user
 .idea
 .vs
+nuget.exe
+ServerCharacters/ServerCharacters.csproj.user
