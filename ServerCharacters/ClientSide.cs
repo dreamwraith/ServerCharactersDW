@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -977,19 +977,19 @@ public static class ClientSide
 				{
 					// If player is dead, clear the logout point so crashes on death screen respawn at bed/start stones
 					__instance.m_playerProfile.ClearLoguoutPoint();
+					setLogoutPoint = false;
 				}
-				else if (!Player.m_localPlayer.IsTeleporting())
+				else if (Player.m_localPlayer.IsTeleporting())
 				{
-					// Skip position update while teleporting to prevent capturing transient or ungrounded portal loading coordinates; otherwise save position
+					// Skip position update while teleporting to prevent capturing transient or ungrounded portal loading coordinates; retains pre-teleport position
+					setLogoutPoint = false;
+				}
+				else
+				{
 					__instance.m_playerProfile.SetLogoutPoint(Player.m_localPlayer.transform.position);
 					setLogoutPoint = true;
 				}
 			}
-		}
-
-		[UsedImplicitly]
-		private static void Postfix(Game __instance)
-		{
 		}
 
 		[UsedImplicitly]
