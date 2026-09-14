@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -14,11 +14,12 @@ namespace ServerCharacters;
 
 [BepInPlugin(ModGUID, ModName, ModVersion)]
 [BepInIncompatibility("org.bepinex.plugins.valheim_plus")]
+[BepInIncompatibility("org.bepinex.plugins.servercharacters")]
 public class ServerCharacters : BaseUnityPlugin
 {
-	private const string ModName = "Server Characters";
-	private const string ModVersion = "1.4.17";
-	private const string ModGUID = "org.bepinex.plugins.servercharacters";
+	private const string ModName = "Server Characters DW";
+	private const string ModVersion = "1.4.18";
+	private const string ModGUID = "org.bepinex.plugins.servercharactersdw";
 
 	public static ServerCharacters selfReference = null!;
 	public static ManualLogSource logger => selfReference.Logger;

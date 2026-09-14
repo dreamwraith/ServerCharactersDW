@@ -1,14 +1,14 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ServerCharacters")]
-[assembly: AssemblyDescription("https://valheim.thunderstore.io/package/Smoothbrain/ServerCharacters")]
+[assembly: AssemblyTitle("ServerCharactersDW")]
+[assembly: AssemblyDescription("Custom fork of ServerCharacters (ServerCharactersDW)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ServerCharacters")]
+[assembly: AssemblyProduct("ServerCharactersDW")]
 [assembly: AssemblyCopyright("Copyright ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
