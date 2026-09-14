@@ -947,8 +947,6 @@ public static class ClientSide
 	[HarmonyPatch(typeof(Game), nameof(Game.SavePlayerProfile))]
 	private class ForceSavingPosition
 	{
-		private static bool originalValue = false;
-
 		[UsedImplicitly]
 		private static void Prefix(Game __instance, ref bool setLogoutPoint, out bool __state)
 		{
@@ -959,23 +957,16 @@ public static class ClientSide
 				ZNet.instance.m_haveStoped = true;
 			}
 
-			if (ZNet.m_world == null || __instance.m_playerProfile.HaveLogoutPoint())
+			if (Player.m_localPlayer != null && !Player.m_localPlayer.IsDead() && !Player.m_localPlayer.IsTeleporting() && __instance.m_playerProfile != null)
 			{
-				originalValue = true;
-				return;
+				__instance.m_playerProfile.SetLogoutPoint(Player.m_localPlayer.transform.position);
+				setLogoutPoint = true;
 			}
-
-			originalValue = setLogoutPoint;
-			setLogoutPoint = true;
 		}
 
 		[UsedImplicitly]
 		private static void Postfix(Game __instance)
 		{
-			if (!originalValue)
-			{
-				__instance.m_playerProfile.ClearLoguoutPoint();
-			}
 		}
 
 		[UsedImplicitly]
